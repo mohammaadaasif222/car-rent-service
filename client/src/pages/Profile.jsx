@@ -130,7 +130,7 @@ export default function Profile() {
       setShowListingsError(false);
       const res = await fetch(`/api/agency/listings/${currentUser._id}`);
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
       if (data.success === false) {
         setShowListingsError(true);
         return;
@@ -146,7 +146,7 @@ export default function Profile() {
       setShowListingsError(false);
       const res = await fetch(`/api/booking/agency/get`);
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
       if (data.success === false) {
         setShowListingsError(true);
         return;

@@ -49,6 +49,7 @@ export const getUserBookings = async (req, res) => {
 };
 
 export const updateStatus = async (req, res) => {
+  console.log(req.body);
   try {
     const booking = await Booking.findByIdAndUpdate(
       req.params.id,
