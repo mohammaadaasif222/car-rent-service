@@ -73,7 +73,7 @@ const Dashboard = ({ pageChange }) => {
             >
               <span className="ms-3">Profile</span>
             </li>
-            {currentUser.role === "agnecy" && (
+            {currentUser.role === "agency" ? (
               <>
                 <li
                   className={
@@ -94,17 +94,17 @@ const Dashboard = ({ pageChange }) => {
                   <span className="ms-3">Bookings</span>
                 </li>
               </>
+            ) : (
+              <li
+                className={
+                  " cursor-pointer slex space-x-3 p-3 rounded " +
+                  (activeIndex == 3 ? "bg-slate-200" : "")
+                }
+                onClick={() => setActiveIndex(3)}
+              >
+                <span className="ms-3">Orders</span>
+              </li>
             )}
-
-            <li
-              className={
-                " cursor-pointer slex space-x-3 p-3 rounded " +
-                (activeIndex == 3 ? "bg-slate-200" : "")
-              }
-              onClick={() => setActiveIndex(3)}
-            >
-              <span className="ms-3">Orders</span>
-            </li>
           </ul>
         </div>
       </aside>
