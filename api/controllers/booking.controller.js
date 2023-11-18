@@ -1,16 +1,9 @@
 import Booking from "../models/booking.model.js";
 
 export const createBooking = async (req, res) => {
-  console.log(req.body);
   try {
-    const {
-      agencyRef,
-      details,
-      listingRef,
-      startDate,
-      endDate,
-      totalPrice,
-    } = req.body;
+    const { agencyRef, details, listingRef, startDate, endDate, totalPrice } =
+      req.body;
 
     const booking = new Booking({
       user: req.user.id,
@@ -52,6 +45,25 @@ export const getUserBookings = async (req, res) => {
     res.json(bookings);
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+};
+
+export const updateStatus = async (req, res) => {
+  try {
+    const booking = await Booking.findByIdAndUpdate(
+      req.params.id,
+      { status: req.body.status },
+      { new: true }
+    );
+    if (!booking) {
+      res.status(404).json({ message: "Booking not found" });
+    }
+    return res
+      .status(200)
+      .json({ message: "Booking status updated successfully!" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
   }
 };
 

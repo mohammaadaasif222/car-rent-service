@@ -39,11 +39,7 @@ export default function Profile() {
     setCurrentIndex(index);
   };
 
-  // firebase storage
-  // allow read;
-  // allow write: if
-  // request.resource.size < 2 * 1024 * 1024 &&
-  // request.resource.contentType.matches('image/.*')
+
 
   const handleFileUpload = (file) => {
     const storage = getStorage(app);

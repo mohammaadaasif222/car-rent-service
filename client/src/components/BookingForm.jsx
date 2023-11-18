@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function BookingForm({ currentUser, listing }) {
   //   const { currentUser } = useSelector((state) => state.user);
-  const price  = listing.rentPrice 
+  const price  = listing.rentalPrice 
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     listingRef: "",
@@ -45,7 +45,7 @@ const differenceInDays = differenceInTime / (1000 * 3600 * 24);
         details:{
           title:listing.make + " "+ listing.model,
           imageUrl:listing.imageUrls[0],
-          rentPrice:listing.rentPrice,
+          rentPrice:listing.rentalPrice,
           day:differenceInDays
         },
         totalPrice:price * differenceInDays});
@@ -67,7 +67,7 @@ const differenceInDays = differenceInTime / (1000 * 3600 * 24);
             rentPrice:listing.rentalPrice,
             day:differenceInDays
           },
-          totalPrice: 789
+          totalPrice: price*differenceInDays
 
         }),
       });
