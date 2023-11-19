@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
-import { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, Suspense } from "react";
+import Spinner from "../components/Spinner";
 import {
   getDownloadURL,
   getStorage,
@@ -19,8 +20,9 @@ import {
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import Dashboard from "../components/Dashboard";
-import ProfileLayout from "../components/ProfileLayout";
-import Table from "../components/Table";
+// import ProfileLayout from "../components/ProfileLayout";
+const ProfileLayout = React.lazy(() => import("../components/ProfileLayout"));
+const Table = React.lazy(() => import("../components/Table"));
 export default function Profile() {
   const fileRef = useRef(null);
   const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -39,8 +41,6 @@ export default function Profile() {
   const changePage = (index) => {
     setCurrentIndex(index);
   };
-
-
 
   const handleFileUpload = (file) => {
     const storage = getStorage(app);
@@ -191,7 +191,6 @@ export default function Profile() {
     }
   };
 
-
   useEffect(() => {
     if (file) {
       handleFileUpload(file);
@@ -213,7 +212,6 @@ export default function Profile() {
         <div className="p-4 sm:ml-64">
           <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8 mb-4">
-
               <div className="flex items-center justify-center h-24 rounded dark:bg-gray-800">
                 <span
                   onClick={handleDeleteUser}
@@ -405,13 +403,17 @@ export default function Profile() {
           </div>
         </div>
       ) : currentIndex === 2 ? (
-        <ProfileLayout>
-          <Table booking={bookings} />
-        </ProfileLayout>
+        <Suspense fallback={<Spinner />}>
+          <ProfileLayout>
+            <Table booking={bookings} />
+          </ProfileLayout>
+        </Suspense>
       ) : currentIndex === 3 ? (
-        <ProfileLayout>
-          <Table booking={bookings} />
-        </ProfileLayout>
+        <Suspense fallback={<Spinner />}>
+          <ProfileLayout>
+            <Table booking={bookings} />
+          </ProfileLayout>
+        </Suspense>
       ) : (
         ""
       )}
