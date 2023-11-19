@@ -1,6 +1,10 @@
 import { Schema, model } from "mongoose";
 
 const bookingSchema = new Schema({
+  customer: {
+    type: String,
+    required: true,
+  },
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",

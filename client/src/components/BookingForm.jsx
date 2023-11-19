@@ -1,15 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 export default function BookingForm({ currentUser, listing }) {
   //   const { currentUser } = useSelector((state) => state.user);
-  const price  = listing.rentalPrice 
+  const [agency, setAgency] = useState(null);
+  const price = listing.rentalPrice;
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     listingRef: "",
     agencygRef: "",
     customer: "",
+    agency: "",
     Dl: "",
     startDate: "",
     endDate: "",
@@ -31,24 +33,14 @@ export default function BookingForm({ currentUser, listing }) {
       [e.target.id]: e.target.value,
     });
   };
-const startDate = new Date(formData.startDate); 
-const endDate = new Date(formData.endDate); 
-const differenceInTime = endDate.getTime() - startDate.getTime();
-const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+  const startDate = new Date(formData.startDate);
+  const endDate = new Date(formData.endDate);
+  const differenceInTime = endDate.getTime() - startDate.getTime();
+  const differenceInDays = differenceInTime / (1000 * 3600 * 24);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log({ agencyRef:listing.agencyRef,
-        listingRef:listing._id,
-        customer:currentUser.username,
-        details:{
-          title:listing.make + " "+ listing.model,
-          imageUrl:listing.imageUrls[0],
-          rentPrice:listing.rentalPrice,
-          day:differenceInDays
-        },
-        totalPrice:price * differenceInDays});
       const res = await fetch("/api/booking/create", {
         method: "POST",
         headers: {
@@ -56,19 +48,19 @@ const differenceInDays = differenceInTime / (1000 * 3600 * 24);
         },
 
         body: JSON.stringify({
-          agencyRef:listing.agencyRef,
-          listingRef:listing._id,
-          customer:currentUser.username,
+          agencyRef: listing.agencyRef,
+          listingRef: listing._id,
+          customer: currentUser.username,
+          agency: agency.title,
           startDate,
           endDate,
-          details:{
-            title:listing.make + " "+ listing.model,
-            imageUrl:listing.imageUrls[0],
-            rentPrice:listing.rentalPrice,
-            day:differenceInDays
+          details: {
+            title: listing.make + " " + listing.model,
+            imageUrl: listing.imageUrls[0],
+            rentPrice: listing.rentalPrice,
+            day: differenceInDays,
           },
-          totalPrice: price*differenceInDays
-
+          totalPrice: price * differenceInDays,
         }),
       });
       const data = await res.json();
@@ -83,6 +75,22 @@ const differenceInDays = differenceInTime / (1000 * 3600 * 24);
       setLoading(false);
     }
   };
+
+  const getagency = async () => {
+    try {
+      const res = await fetch(`/api/agency/${listing.agencyRef}`);
+      const data = await res.json();
+      setAgency(data);
+
+      console.log(data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    getagency();
+  }, []);
   return (
     <main className="p-3 max-w-4xl mx-auto">
       <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">

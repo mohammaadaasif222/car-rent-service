@@ -32,6 +32,7 @@ export default function Profile() {
   const [showListingsError, setShowListingsError] = useState(false);
   const [userListings, setUserListings] = useState([]);
   const [bookings, setBookings] = useState([]);
+  const [reload, setReload] = useState(false);
   const dispatch = useDispatch();
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -146,7 +147,6 @@ export default function Profile() {
       setShowListingsError(false);
       const res = await fetch(`/api/booking/agency/get`);
       const data = await res.json();
-      // console.log(data);
       if (data.success === false) {
         setShowListingsError(true);
         return;
@@ -190,6 +190,8 @@ export default function Profile() {
       console.log(error.message);
     }
   };
+
+
   useEffect(() => {
     if (file) {
       handleFileUpload(file);
@@ -210,38 +212,20 @@ export default function Profile() {
       {currentIndex === 0 ? (
         <div className="p-4 sm:ml-64">
           <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-            <div className="grid grid-cols-3 gap-4 mb-4">
-              <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-                <p className="text-2xl text-gray-400 dark:text-gray-500">
-                  <svg
-                    className="w-3.5 h-3.5"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 18 18"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M9 1v16M1 9h16"
-                    />
-                  </svg>
-                </p>
-              </div>
-              <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8 mb-4">
+
+              <div className="flex items-center justify-center h-24 rounded dark:bg-gray-800">
                 <span
                   onClick={handleDeleteUser}
-                  className="flex flex-row items-center justify-center w-full px-4 py-4 mb-4 text-sm  bg-slate-100 leading-6 uppercase duration-100 transform rounded-sm shadow cursor-pointer focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 focus:outline-none sm:mb-0 sm:w-auto sm:mr-4 md:pl-8 md:pr-6 xl:pl-12 xl:pr-10   hover:shadow-lg hover:-translate-y-1"
+                  className="self-center mb-4 text-sm bg-slate-100 px-4 py-2 uppercase rounded-sm shadow cursor-pointer focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 focus:outline-none text-center"
                 >
                   Delete account
                 </span>
               </div>
-              <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
+              <div className="flex items-center justify-center h-24 rounded dark:bg-gray-800">
                 <span
                   onClick={handleSignOut}
-                  className="flex flex-row items-center justify-center w-full px-4 py-4 mb-4 text-sm  bg-slate-100 leading-6 uppercase duration-100 transform rounded-sm shadow cursor-pointer focus:ring-4 focus:ring-green-200 focus:ring-opacity-50 focus:outline-none sm:mb-0 sm:w-auto sm:mr-4 md:pl-8 md:pr-6 xl:pl-12 xl:pr-10   hover:shadow-lg hover:-translate-y-1"
+                  className="self-center mb-4 text-sm bg-slate-100 px-4 py-2 uppercase rounded-sm shadow cursor-pointer focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 focus:outline-none text-center"
                 >
                   Sign out
                 </span>
@@ -250,7 +234,7 @@ export default function Profile() {
             <div className="flex items-center justify-center p-5 mb-4 rounded bg-gray-50 dark:bg-gray-800">
               <form
                 onSubmit={handleSubmit}
-                className="flex flex-col gap-4 w-1/2"
+                className="flex flex-col gap-4 w-full md:w-1/2 lg:w-2/5"
               >
                 <input
                   onChange={(e) => setFile(e.target.files[0])}
@@ -321,8 +305,8 @@ export default function Profile() {
       ) : currentIndex === 1 ? (
         <div className="p-4 sm:ml-64">
           <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-            <div className="grid grid-cols-3 gap-4 mb-4">
-              <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
+            <div className="grid grid-cols-1 sm:grid-cols-1 gap-4 md:gap-8 mb-4">
+              {/* <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
                 <p className="text-2xl text-gray-400 dark:text-gray-500">
                   <svg
                     className="w-3.5 h-3.5"
@@ -359,7 +343,7 @@ export default function Profile() {
                     />
                   </svg>
                 </p>
-              </div>
+              </div> */}
               <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
                 {currentUser.role === "agency" && (
                   <>

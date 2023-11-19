@@ -6,9 +6,9 @@ const Table = ({ booking }) => {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [dataChanged, setDataChanged] = useState(false);
 
   useEffect(() => {
+    
     if (message) {
       const timer = setTimeout(() => {
         setMessage("");
@@ -16,7 +16,7 @@ const Table = ({ booking }) => {
 
       return () => clearTimeout(timer);
     }
-  }, [message, loading, dataChanged]);
+  }, [message, loading]);
 
   const handleSelect = async (e, id) => {
     try {
@@ -30,13 +30,9 @@ const Table = ({ booking }) => {
       });
 
       const data = await res.json();
-      console.log(data);
       setLoading(false);
 
       setMessage(data.message);
-      console.log(data);
-
-      setDataChanged(!dataChanged); // Set dataChanged to trigger re-render
     } catch (error) {
       console.log(error.message);
     }
@@ -50,14 +46,16 @@ const Table = ({ booking }) => {
           role="alert"
         >
           <span className="font-medium">{message}</span>
-          <span className="text-xs text-green-800">Reload the component to see the changes!</span>
+          <span className="text-xs text-green-800">
+            Reload the component to see the changes!
+          </span>
         </div>
       )}
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase dark:text-gray-400">
           <tr>
             <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-              Customer Id
+              Customer
             </th>
             <th scope="col" className="px-6 py-3">
               Status
@@ -93,7 +91,7 @@ const Table = ({ booking }) => {
                       scope="row"
                       className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800"
                     >
-                      {booking.user.substring(0, 5)}
+                      {booking.user.slice(0,5)}
                     </th>
                     <td className="px-6 py-4">
                       {booking.status === "pending" ? (

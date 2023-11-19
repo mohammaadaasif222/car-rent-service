@@ -1,13 +1,16 @@
 import Booking from "../models/booking.model.js";
 
 export const createBooking = async (req, res) => {
+  console.log(req.body);
   try {
-    const { agencyRef, details, listingRef, startDate, endDate, totalPrice } =
+    const { agencyRef, details, listingRef, startDate, endDate, totalPrice, customer, agency } =
       req.body;
 
     const booking = new Booking({
       user: req.user.id,
       listingRef,
+      customer,
+      agency,
       agencyRef,
       details,
       startDate,
