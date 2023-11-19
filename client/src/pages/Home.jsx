@@ -1,10 +1,14 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import SwiperCore from 'swiper';
 import 'swiper/css/bundle';
-import ListingItem from '../components/ListingItem';
+import Spinner from '../components/Spinner';
+
+const ListingItem = React.lazy(() => import('../components/ListingItem'))
+
+
 
 export default function Home() {
   const [offerListings, setOfferListings] = useState([]);
@@ -96,7 +100,9 @@ export default function Home() {
             </div>
             <div className='flex flex-wrap gap-4'>
               {offerListings.map((listing) => (
-                <ListingItem listing={listing} key={listing._id} />
+                <Suspense key={listing._id} fallback={<Spinner/>}>
+                  <ListingItem listing={listing} key={listing._id} />
+                </Suspense>
               ))}
             </div>
           </div>

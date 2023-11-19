@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
 import { useSelector } from "react-redux";
 import { Navigation } from "swiper/modules";
-import BookingForm from "../components/BookingForm";
+import Spinner from "../components/Spinner";
+const BookingForm = React.lazy(() => import("../components/BookingForm"));
 import "swiper/css/bundle";
 import {
   FaChair,
@@ -14,7 +15,7 @@ import {
   FaCar,
   FaTachometerAlt,
 } from "react-icons/fa";
-import Contact from "../components/Contact";
+const Contact = React.lazy(() => import("../components/Contact"));
 
 // https://sabe.io/blog/javascript-format-numbers-commas#:~:text=The%20best%20way%20to%20format,format%20the%20number%20with%20commas.
 
@@ -156,11 +157,19 @@ export default function Listing() {
                 </button>
               </Link>
             )}
-            {contact && <Contact listing={listing} />}
+            {contact && (
+              <Suspense fallback={<Spinner />}>
+                <Contact listing={listing} />
+              </Suspense>
+            )}
           </div>
         </div>
       )}
-      {showForm && <BookingForm currentUser={currentUser} listing={listing} />}
+      {showForm && (
+        <Suspense fallback={<Spinner />}>
+          <BookingForm currentUser={currentUser} listing={listing} />
+        </Suspense>
+      )}
     </main>
   );
 }

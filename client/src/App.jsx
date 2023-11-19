@@ -1,21 +1,26 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
-import About from './pages/About';
-import Profile from './pages/Profile';
-import Header from './components/Header';
-import PrivateRoute from './components/PrivateRoute';
-import CreateListing from './pages/CreateListing';
-import UpdateListing from './pages/UpdateListing';
-import Listing from './pages/Listing';
-import Search from './pages/Search';
-import Register from './pages/Register';
-import Login from './pages/Login';
+
+import React,{Suspense} from 'react';
+
+const Home = React.lazy(()=> import('./pages/Home'))
+const SignIn = React.lazy(()=> import('./pages/SignIn'))
+const SignUp = React.lazy(()=> import('./pages/SignUp'))
+const About = React.lazy(()=> import('./pages/About'))
+const Profile = React.lazy(()=> import('./pages/Profile'))
+const Header = React.lazy(()=> import('./components/Header'))
+const PrivateRoute = React.lazy(()=> import('./components/PrivateRoute'))
+const CreateListing = React.lazy(()=> import('./pages/CreateListing'))
+const UpdateListing = React.lazy(()=> import('./pages/UpdateListing'))
+const Listing = React.lazy(()=> import('./pages/Listing'))
+const Search = React.lazy(()=> import('./pages/Search'))
+const Register = React.lazy(()=> import('./pages/Register'))
+const Login = React.lazy(()=> import('./pages/Login'))
+import Loader from './components/Loader'
 
 export default function App() {
   return (
     <BrowserRouter>
+    <Suspense fallback={<Loader/>}>
       <Header />
       <Routes>
         <Route path='/' element={<Home />} />
@@ -36,6 +41,7 @@ export default function App() {
           />
         </Route>
       </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }
