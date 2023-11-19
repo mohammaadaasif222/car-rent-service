@@ -3,8 +3,12 @@ import { useSelector } from "react-redux";
 
 const Dashboard = ({ pageChange }) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   useEffect(() => {
     pageChange(activeIndex);
+    if(window.innerWidth > 633){
+     setSidebarOpen(true)
+    }
   }, [activeIndex]);
 
   const { currentUser } = useSelector((state) => state.user);
@@ -22,9 +26,14 @@ const Dashboard = ({ pageChange }) => {
       icon: "",
     },
   ];
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+    console.log(sidebarOpen);
+  };
   return (
     <>
       <button
+      onClick={toggleSidebar}
         data-drawer-target="logo-sidebar"
         data-drawer-toggle="logo-sidebar"
         aria-controls="logo-sidebar"
@@ -48,11 +57,15 @@ const Dashboard = ({ pageChange }) => {
       </button>
 
       <aside
-        id="logo-sidebar"
-        className="fixed mt-20 top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
-        aria-label="Sidebar"
+      id="logo-sidebar"
+      className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${
+        sidebarOpen ? "translate-x-0" : "-translate-x-full"
+      } ${sidebarOpen ? "sm:mt-32" : "sm:top-36 sm:mt-0"} ${
+        typeof window !== "undefined" && window.innerWidth <= 633 ? "top-36" : ""
+      } sm:top-36 sm:mt-0`}
+      aria-label="Sidebar"
       >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800" >
           <a href="#" className="flex items-center ps-2.5 mb-5 gap-2">
             <img
               className="rounded-full h-10 w-10 object-cover"
