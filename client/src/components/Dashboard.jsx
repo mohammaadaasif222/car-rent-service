@@ -61,7 +61,7 @@ const Dashboard = ({ pageChange }) => {
       className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       } ${sidebarOpen && "sm:top-36 sm:mt-0"} ${
-        typeof window !== "undefined" && window.innerWidth >= 633 ? "top-36" : ""
+        typeof window !== "undefined" && window.innerWidth >= 633 ? "top-36" : "top-36"
       } sm:top-36 sm:mt-0`}
       aria-label="Sidebar"
       >
