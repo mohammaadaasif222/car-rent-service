@@ -281,7 +281,7 @@ export default function CreateListing() {
             Add Features
           </span>
           {features?.map((item, index) => (
-            <li key={index}>
+            <li key={index} className="btn text-xs rounded-full list-none text-white bg-slate-700  p-2 gap-2 flex">
               <span>{item}</span>
               <span onClick={() => deleteFeature(index)}>❌</span>
             </li>
