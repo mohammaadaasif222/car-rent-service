@@ -14,6 +14,7 @@ import {
   FaGasPump,
   FaCar,
   FaTachometerAlt,
+  FaCalendar,
 } from "react-icons/fa";
 const Contact = React.lazy(() => import("../components/Contact"));
 
@@ -114,6 +115,7 @@ export default function Listing() {
               <span className="font-semibold text-black">Description - </span>
               {listing.description}
             </p>
+
             <ul className="text-green-900 font-semibold text-sm flex flex-wrap items-center gap-4 sm:gap-6">
               <li className="flex items-center gap-1 whitespace-nowrap ">
                 <FaGasPump className="text-lg" />
@@ -128,21 +130,26 @@ export default function Listing() {
                 {"mileage" + " " + listing.mileage}
               </li>
               <li className="flex items-center gap-1 whitespace-nowrap ">
-                <FaChair className="text-lg" />
+                <FaCalendar className="text-lg" />
+
                 {listing.year}
               </li>
-              Features :{" "}
-              {listing.features.map((item, index) => {
-                return (
-                  <li
-                    key={item + new Date()}
-                    className="flex items-center gap-1 whitespace-nowrap "
-                  >
-                    {item}
-                  </li>
-                );
-              })}
             </ul>
+            <p className="text-slate-800 w-1/2">
+              <div className="font-semibold text-black">Features - </div>
+              <ul className="grid grid-cols-2 ">
+                {listing.features.map((item, index) => {
+                  return (
+                    <li
+                      key={item + new Date()}
+                      className="py-3 text-green-800"
+                    >
+                      {item}
+                    </li>
+                  );
+                })}
+              </ul>
+            </p>
             {currentUser && listing.userRef !== currentUser._id && !contact ? (
               <button
                 onClick={() => setShowForm(!showForm)}
